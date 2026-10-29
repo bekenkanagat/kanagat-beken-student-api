@@ -31,6 +31,12 @@ public class StudentService {
         return repository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     }
 
+    // Feature by Kanagat Beken: search by last name
+    @Transactional(readOnly = true)
+    public List<Student> searchByLastName(String lastName) {
+        return repository.findByLastNameContainingIgnoreCaseOrderByIdAsc(lastName.trim());
+    }
+
     public Student create(StudentRequest request) {
         if (repository.existsByEmailIgnoreCase(request.email())) {
             throw new DuplicateEmailException(request.email());

@@ -65,3 +65,8 @@ curl http://localhost:8080/kanagat-beken/api/info
 ## Security
 
 `.env`, passwords and database credentials are **never** committed. Only `.env.example` with placeholder values is stored in Git.
+
+## Changes by Kanagat Beken
+
+- Added `GET /api/students/search?lastName=...` - search students by last name (case-insensitive, partial match).
+- Added test `StudentSearchTest` for the new endpoint.
