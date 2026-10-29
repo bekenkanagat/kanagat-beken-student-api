@@ -1,7 +1,7 @@
 # kanagat-beken-student-api
 
 Author: **Kanagat Beken**
-Project status: initial version of the Student API
+Project status: documentation updated by Kanagat Beken
 
 Spring Boot CRUD REST API for managing students, with PostgreSQL, Docker, Docker Compose and a Jenkins CI/CD pipeline.
 Created for the DevOps midterm.
