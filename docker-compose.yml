@@ -1,0 +1,52 @@
+# Docker Compose for kanagat-beken-student-api
+# Author: Kanagat Beken
+# Usage:  cp .env.example .env  &&  docker compose up -d --build
+name: kanagat-beken-student-api
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: kanagat-beken-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - kanagat-beken-pgdata:/var/lib/postgresql/data
+    networks:
+      - kanagat-beken-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kanagat-beken-student-api:${APP_IMAGE_TAG:-v1.0-kanagat-beken}
+    container_name: kanagat-beken-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # service name "postgres" is used as the host, NOT localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      STUDENT_NAME: Kanagat Beken
+    ports:
+      - "8080:8080"
+    networks:
+      - kanagat-beken-net
+    restart: unless-stopped
+
+volumes:
+  kanagat-beken-pgdata:
+
+networks:
+  kanagat-beken-net:
+    driver: bridge
