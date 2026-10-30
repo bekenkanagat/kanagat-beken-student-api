@@ -107,6 +107,6 @@ class StudentControllerTest {
     void infoEndpointShowsAuthor() throws Exception {
         mockMvc.perform(get("/api/info"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.author").value("Kanagat Beken"));
+                .andExpect(jsonPath("$.author").value("Wrong Name"));
     }
 }
