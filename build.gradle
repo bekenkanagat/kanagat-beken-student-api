@@ -6,7 +6,7 @@ plugins {
 
 // Author: Kanagat Beken
 group = 'kz.kanagatbeken'
-version = '1.0.0'
+version = '1.1.0'
 description = 'Student CRUD API by Kanagat Beken'
 
 java {
